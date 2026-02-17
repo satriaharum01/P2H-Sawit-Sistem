@@ -1,0 +1,68 @@
+🧭 SITE MAP ADMIN PANEL (Versi Production-Ready)
+🏠 1. Dashboard
+
+Ringkasan unit breakdown
+
+Total task hari ini
+
+Not OK critical
+
+Quick status sistem (Active / Maintenance)
+
+⚙️ 2. System Settings
+
+Ini inti config website.
+
+Menu:
+
+General Settings
+
+Maintenance Mode
+
+QR Settings
+
+Default Status Rules
+
+👤 3. User Management
+
+List User
+
+Create User
+
+Edit User
+
+Reset Password
+
+Force Logout
+
+Set Role / Hak Akses
+
+🏗 4. Master Data
+
+Ini tempat admin isi data dinamis EAV.
+
+Submenu:
+
+Items (Unit / Task Template / Inventory)
+
+Attributes
+
+Attribute Groups (opsional tapi disaranin)
+
+Categories
+
+🧩 5. Route Permission Config
+
+Set route_name
+
+Assign ke role
+
+Toggle aktif/nonaktif
+
+🏢 6. Estate / Kebun Management (Future Ready)
+
+Tambah kebun
+
+Set kode kebun
+
+Set active estate
