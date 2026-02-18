@@ -7,6 +7,9 @@
 <!--===============================================================================================-->
 <!-- Select 2 Plugin -->
 <script src="{{ asset('static/libs/select2/select2.min.js') }}"></script>
+<!-- SweetAlert 2 -->
+<script src="{{ asset( 'static/libs/sweetalert2/sweetalert2.all.min.js')}}">
+</script>
 
 <script>
     $("body").on("click", ".btn-hapus", function() {

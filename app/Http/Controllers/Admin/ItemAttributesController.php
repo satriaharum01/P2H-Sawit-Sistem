@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Estate;
 use App\Models\Item;
+use App\Models\Estate;
+use App\Models\Attribute;
+use App\Models\ItemAttributeValue;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 
-class DataItemController extends Controller
+class ItemAttributesController extends Controller
 {
     /* =========================
        ITEMS SECTION
@@ -108,5 +110,19 @@ class DataItemController extends Controller
         $data = Item::select('*')->where('id', $id)->first();
         $data->dataTitle = 'Update Items'; 
         return json_encode($data);
+    }
+    
+    public function attachAttribute(Request $request, $itemId)
+    {
+        $request->validate([
+            'attribute_id' => 'required|exists:attributes,id'
+        ]);
+
+        ItemAttributeValue::create([
+            'item_id' => $itemId,
+            'attribute_id' => $request->attribute_id
+        ]);
+
+        return back()->with('success', 'Attribute berhasil ditambahkan ke item');
     }
 }

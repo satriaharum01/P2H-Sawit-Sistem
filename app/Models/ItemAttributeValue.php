@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItemAttributeValue extends Model
 {
+    protected $table = 'item_attribute_values';
+
     protected $fillable = [
         'item_id',
         'attribute_id',

@@ -1,5 +1,4 @@
 @pushIf($showDatatablesSetting, 'scripts')
-<script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js"></script>
 <script>
     $(function() {
 

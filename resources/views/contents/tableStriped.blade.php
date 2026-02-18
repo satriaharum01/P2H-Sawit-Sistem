@@ -10,7 +10,7 @@
 
             <div class="card-header">
                 <div class="float-end" {!! $addBtnConfig ?? '' !!}>
-                    <button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button>
+                    <button class="btn btn-primary btn-add"><i class="fa fa-plus"></i> Tambah</button>
                 </div>
                 <h5 class="card-title mt-2">{{ $tableTitle }}</h5>
             </div>

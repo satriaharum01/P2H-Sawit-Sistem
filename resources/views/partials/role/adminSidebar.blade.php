@@ -110,12 +110,12 @@
     </a>
     <ul class="menu-sub">
         <li class="menu-item">
-            <a href="#" class="menu-link">
-                <div>Items (Unit / Task / Inventory)</div>
+            <a href="{{route('master.data.items')}}" class="menu-link">
+                <div>Items</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="{{route('master.data.attributes')}}" class="menu-link">
                 <div>Attributes</div>
             </a>
         </li>

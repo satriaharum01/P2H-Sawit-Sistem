@@ -4,13 +4,13 @@
     <th></th>
     <th>Code</th>
     <th>Name</th>
-    <th>Category</th>
+    <th>Data Type</th>
+    <th>Scope</th>
     <th>Sub Type</th>
-    <th>Status</th>
     <th width="15%">Actions</th>
 @endsection
 
 @pushIf($showDatatablesSetting, 'partials')
 
 @endpushIf
-@include('contents.js.masterDataItems')
+@include('contents.js.masterDataAttributes')
