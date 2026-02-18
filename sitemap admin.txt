@@ -29,8 +29,6 @@ List User
 
 Create User
 
-Edit User
-
 Reset Password
 
 Force Logout
@@ -55,7 +53,7 @@ Categories
 
 Set route_name
 
-Assign ke role
+Assign role
 
 Toggle aktif/nonaktif
 

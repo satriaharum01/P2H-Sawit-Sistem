@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\UserRedirectController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SystemConfigController;
+use App\Http\Controllers\Admin\DataItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,13 +31,22 @@ Route::middleware(['check.maintenance'])->group(function () {
         Route::GET('/user/redirect', [UserRedirectController::class, 'redirect']);
 
         Route::prefix('account')->group(function () {
-            Route::GET('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])
-                ->name('account.dashboard');
+            Route::GET('/dashboard', [DashboardController::class, 'index'])->name('account.dashboard');
+        });
+        Route::prefix('setting')->group(function () {
+            Route::GET('/website', [SystemConfigController::class, 'index'])->name('setting.website');
+            Route::GET('/website/json', [SystemConfigController::class, 'json']);
+            Route::GET('/website/find/{id}', [SystemConfigController::class, 'find']);
         });
 
-        Route::GET('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
+        Route::prefix('main')->group(function () {
+            Route::prefix('items')->group(function () {
+                Route::GET('/', [DataItemController::class, 'index'])->name('master.data.items');
+                Route::GET('/edit/{id}', [DataItemController::class, 'index'])->name('master.data.items');
+                Route::GET('/json', [DataItemController::class, 'json']);
+                Route::GET('/find/{id}', [DataItemController::class, 'find']);
+            });
+        });
 
         Route::GET('/p2h/form', function () {
             return view('p2h.form');

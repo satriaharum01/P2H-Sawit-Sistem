@@ -2,21 +2,7 @@
     <div class="app-brand demo">
         <a href="{{ url('/') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
-                <svg width="28" height="28" viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="3"
-                    stroke-linecap="round" stroke-linejoin="round">
-
-                    <!-- Trunk -->
-                    <path d="M32 30 L32 58" />
-
-                    <!-- Leaves -->
-                    <path d="M32 30 C20 20, 10 22, 6 16" />
-                    <path d="M32 30 C44 20, 54 22, 58 16" />
-                    <path d="M32 28 C18 26, 12 18, 10 10" />
-                    <path d="M32 28 C46 26, 52 18, 54 10" />
-                    <path d="M32 26 C22 14, 22 8, 32 6" />
-                    <path d="M32 26 C42 14, 42 8, 32 6" />
-
-                </svg>
+                <i class="fas fa-tractor fa-2x text-green-700"></i>
             </span>
             <span class="app-brand-text demo menu-text fw-bolder ms-2">{{ $siteName }}</span>
         </a>
@@ -34,3 +20,32 @@
         @endif
     </ul>
 </aside>
+
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentUrl = window.location.href.split(/[?#]/)[0];
+            const menuLinks = document.querySelectorAll('.menu-link');
+
+            menuLinks.forEach(link => {
+                if (!link.href || link.getAttribute('href').includes('javascript') || link.getAttribute(
+                        'href') === '#') {
+                    return;
+                }
+
+                if (link.href === currentUrl) {
+                    const menuItem = link.closest('.menu-item');
+                    if (menuItem) {
+                        menuItem.classList.add('active');
+
+                        let parent = menuItem.parentElement.closest('.menu-item');
+                        while (parent) {
+                            parent.classList.add('active', 'open');
+                            parent = parent.parentElement.closest('.menu-item');
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+@endpush

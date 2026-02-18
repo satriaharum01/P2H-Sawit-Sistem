@@ -28,7 +28,7 @@
     </a>
     <ul class="menu-sub">
         <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="{{route('setting.website')}}" class="menu-link">
                 <div>General Settings</div>
             </a>
         </li>
@@ -170,7 +170,7 @@
 
         <!-- Active Sessions -->
         <li class="menu-item">
-            <a href="" class="menu-link">
+            <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user-check"></i>
                 <div>Active Sessions</div>
             </a>
@@ -178,7 +178,7 @@
 
         <!-- Login Logs -->
         <li class="menu-item">
-            <a href="" class="menu-link">
+            <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-history"></i>
                 <div>Login History</div>
             </a>
@@ -198,7 +198,7 @@
 
         <!-- Device Tracking -->
         <li class="menu-item">
-            <a href="" class="menu-link">
+            <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-mobile-alt"></i>
                 <div>Device Tracking</div>
             </a>
@@ -206,7 +206,7 @@
 
         <!-- Session Timeout Config -->
         <li class="menu-item">
-            <a href="" class="menu-link">
+            <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-timer"></i>
                 <div>Session Timeout Config</div>
             </a>
