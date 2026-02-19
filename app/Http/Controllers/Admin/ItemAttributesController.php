@@ -43,16 +43,16 @@ class ItemAttributesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'item_id' => 'required|exists:items,id',
-            'attribute_id' => 'required|exists:attributes,id'
+            'item_uuid' => 'required|exists:items,uuid',
+            'attribute_uuid' => 'required|exists:attributes,uuid'
         ]);
 
         ItemAttributeValue::updateOrCreate(
             [
-            'item_id'      => $request->item_id,
-            'attribute_id' => $request->attribute_id
+            'item_uuid'      => $request->item_uuid,
+            'attribute_uuid' => $request->attribute_uuid
         ],
-            $request->except(['item_id', 'attribute_id'])
+            $request->except(['item_uuid', 'attribute_uuid'])
         );
 
         return redirect()->back()
@@ -63,8 +63,8 @@ class ItemAttributesController extends Controller
     public function add()
     {
         $fields = ItemAttributeValue::getFormSettings();
-        $fields['item_id']['options'] = Item::pluck('name', 'id')->toArray();
-        $fields['attribute_id']['options'] = Attribute::pluck('name', 'id')->toArray();
+        $fields['item_uuid']['options'] = Item::pluck('name', 'uuid')->toArray();
+        $fields['attribute_uuid']['options'] = Attribute::pluck('name', 'uuid')->toArray();
 
         $this->dataLoad['showFormSettings'] = true;
         $this->dataLoad['fields'] = $fields;
@@ -107,9 +107,9 @@ class ItemAttributesController extends Controller
             ->make(true);
     }
 
-    public function getParamaters()
+    public function getParamaters($id)
     {
-        $data = ItemAttributeValue::with('attribute')->get();
+        $data = ItemAttributeValue::with('attribute')->where('item_uuid',$id)->get();
 
         return Datatables::of($data)
             ->addIndexColumn()
@@ -118,7 +118,7 @@ class ItemAttributesController extends Controller
 
     public function find($od, $id)
     {
-        $data = ItemAttributeValue::with('attribute')->where('id', $id)->first();
+        $data = ItemAttributeValue::with('attribute')->where('uuid', $id)->first();
         $data->dataTitle = 'Update Attribute Values';
         return json_encode($data);
     }
@@ -126,12 +126,12 @@ class ItemAttributesController extends Controller
     public function attachAttribute(Request $request, $itemId)
     {
         $request->validate([
-            'attribute_id' => 'required|exists:attributes,id'
+            'attribute_uuid' => 'required|exists:attributes,uuid'
         ]);
 
         ItemAttributeValue::create([
-            'item_id' => $itemId,
-            'attribute_id' => $request->attribute_id
+            'item_uuid' => $itemId,
+            'attribute_uuid' => $request->attribute_uuid
         ]);
 
         return redirect()->back()->with([

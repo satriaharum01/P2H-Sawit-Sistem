@@ -3,13 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Attribute extends Model
 {
+    use HasUuids;
+
     protected $table = 'attributes';
+    protected $primaryKey = 'uuid';
 
     protected $fillable = [
-        'estate_id',
+        'estate_uuid',
         'name',
         'code',
         'data_type',
@@ -21,7 +25,7 @@ class Attribute extends Model
     ];
 
     public static $fieldTypes = [
-        'estate_id' => 'select',
+        'estate_uuid' => 'select',
         'code'      => 'text',
         'name'      => 'text',
         'data_type'  => 'select',

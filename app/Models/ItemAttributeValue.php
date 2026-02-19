@@ -3,14 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class ItemAttributeValue extends Model
 {
+    use HasUuids;
+
     protected $table = 'item_attribute_values';
+    protected $primaryKey = 'uuid';
 
     protected $fillable = [
-        'item_id',
-        'attribute_id',
+        'item_uuid',
+        'attribute_uuid',
         'value_string',
         'value_number',
         'value_boolean',
@@ -24,8 +28,8 @@ class ItemAttributeValue extends Model
     ];
 
     public static $fieldTypes = [
-        'item_id' => 'select',
-        'attribute_id'     => 'select',
+        'item_uuid' => 'select',
+        'attribute_uuid'     => 'select',
         'value_string'      => 'text',
         'value_number'  => 'number',
         'value_boolean'  => 'boolean',
@@ -46,14 +50,14 @@ class ItemAttributeValue extends Model
     public static function getFormSettings()
     {
         return [
-            'item_id' => [
+            'item_uuid' => [
                 'type' => 'select',
                 'label' => 'Item',
                 'options' => [], 
                 'placeholder' => '-- Pilih Item --',
                 'required' => true
             ],
-            'attribute_id' => [
+            'attribute_uuid' => [
                 'type' => 'select',
                 'label' => 'Attribute',
                 'options' => [], 

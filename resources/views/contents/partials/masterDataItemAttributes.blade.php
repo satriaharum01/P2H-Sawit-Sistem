@@ -66,7 +66,7 @@
     @endsection
 @endisset
 
-@isset($showDatatablesSetting)
+@isset($showDatatablesSettingDetails)
     @push('partials')
         <div class="modal fade" id="compose" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">

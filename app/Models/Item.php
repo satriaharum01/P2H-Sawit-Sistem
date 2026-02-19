@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Item extends Model
 {
+    use HasUuids;
     
     protected $table = 'items';
+    protected $primaryKey = 'uuid';
 
     protected $fillable = [
-        'estate_id',
+        'estate_uuid',
         'code',
         'name',
         'category',
@@ -19,7 +22,7 @@ class Item extends Model
     ];
     
     public static $fieldTypes = [
-        'estate_id' => 'number',
+        'estate_uuid' => 'select',
         'code'      => 'text',
         'name'      => 'text',
         'category'  => 'select',
@@ -57,13 +60,13 @@ class Item extends Model
             return $query;
         }
 
-        return $query->where('estate_id', $user->estate_id);
+        return $query->where('estate_uuid', $user->estate_uuid);
     }
 
     public static function getFormSettings()
     {
         return [
-            'estate_id' => [
+            'estate_uuid' => [
                 'type' => 'select',
                 'label' => 'Estate',
                 'options' => [], 

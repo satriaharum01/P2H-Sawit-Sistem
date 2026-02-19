@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\RoutePermission;
+use App\Models\RoleRoutePermission;
+use App\Models\RouteConfig;
 
 class CheckRoutePermission
 {
@@ -24,7 +26,7 @@ class CheckRoutePermission
         if (!$user->role) {
             abort(403, 'User belum memiliki role.');
         }
-       
+
         // Admin bypass semua
         if ($user->role->name === 'Admin') {
             return $next($request);
@@ -32,8 +34,17 @@ class CheckRoutePermission
 
         $routeName = $request->route()->getName();
 
-        $allowed = RoutePermission::where('role_id', $user->role_id)
-            ->where('route_name', $routeName)
+        // Cari route di routes_config
+        $routeConfig = RouteConfig::where('route_name', $routeName)
+            ->where('is_active', 1)
+            ->first();
+
+        if (!$routeConfig) {
+            abort(403, 'Route tidak terdaftar atau tidak aktif.');
+        }
+
+        $allowed = RoleRoutePermission::where('role_id', $user->role_id)
+            ->where('route_config_id', $routeConfig->id)
             ->exists();
 
         if (!$allowed) {
@@ -43,4 +54,3 @@ class CheckRoutePermission
         return $next($request);
     }
 }
-

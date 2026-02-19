@@ -33,7 +33,7 @@
                                 class: "text-center",
                             },
                             {
-                                data: "id",
+                                data: "uuid",
                                 class: "text-center",
                                 orderable: false,
                                 searchable: false,
@@ -77,7 +77,7 @@
 
                 function set_value(value) {
                     var url = "{{ route('master.data.itemattributes.update', ':id') }}";
-                    url = url.replace(':id', value.id);
+                    url = url.replace(':id', value.uuid);
                     $('#compose-form').attr('action', url);
 
                     jQuery("#compose-form input[name=attribute_name]").val(value.attribute.name);
@@ -118,7 +118,7 @@
                                 class: "text-center",
                             },
                             {
-                                data: "id",
+                                data: "uuid",
                                 class: "text-center",
                                 orderable: false,
                                 searchable: false,

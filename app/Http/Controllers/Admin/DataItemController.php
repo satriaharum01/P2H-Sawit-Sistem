@@ -27,7 +27,7 @@ class DataItemController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'estate_id' => 'required|exists:estates,id',
+            'estate_uuid' => 'required|exists:estates,uuid',
             'code' => 'required|unique:items,code',
             'name' => 'required',
             'category' => 'required|in:unit,inventory,task'
@@ -35,13 +35,13 @@ class DataItemController extends Controller
 
         Item::create($request->all());
 
-        return redirect()->back()->with('success', 'Item berhasil ditambahkan');
+        return redirect()->back()->with('message', 'Item berhasil ditambahkan')->with('info', 'success');
     }
 
     public function add()
     {
         $fields = Item::getFormSettings();
-        $fields['estate_id']['options'] = Estate::pluck('name', 'id')->toArray();
+        $fields['estate_uuid']['options'] = Estate::pluck('name', 'uuid')->toArray();
         
         $this->dataLoad['fields'] = $fields;
         $this->dataLoad['sectionTitle'] = 'Tambah Data Items';
@@ -55,7 +55,7 @@ class DataItemController extends Controller
     {
         $item = Item::findOrFail($id);
         $fields = Item::getFormSettings();
-        $fields['estate_id']['options'] = Estate::pluck('name', 'id')->toArray();
+        $fields['estate_uuid']['options'] = Estate::pluck('name', 'uuid')->toArray();
         
         foreach ($fields as $key => $config) {
             $fields[$key]['value'] = $item->$key;
@@ -74,7 +74,7 @@ class DataItemController extends Controller
         $item = Item::findOrFail($id);
 
         $request->validate([
-            'estate_id' => 'required|exists:estates,id',
+            'estate_uuid' => 'required|exists:estates,uuid',
             'code' => 'required|unique:items,code,' . $item->id,
             'name' => 'required',
             'category' => 'required|in:unit,inventory,task'
@@ -82,7 +82,7 @@ class DataItemController extends Controller
 
         $item->update($request->all());
 
-        return redirect()->back()->with('info', 'Item berhasil diupdate');
+        return redirect()->back()->with('message', 'Item berhasil diupdate')->with('info', 'info');
     }
 
     public function delete($id)
@@ -90,7 +90,7 @@ class DataItemController extends Controller
         $rows = Item::findOrFail($id);
         $rows->delete();
 
-        return redirect()->back()->with('danger', 'Item berhasil dihapus');
+        return redirect()->back()->with('message', 'Item berhasil dihapus')->with('info', 'danger');
 
     }
 

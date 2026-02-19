@@ -31,7 +31,7 @@
                     class: "text-center",
                 },
                 {
-                    data: "id",
+                    data: "uuid",
                     class: "text-center",
                     orderable: false,
                     searchable: false,
