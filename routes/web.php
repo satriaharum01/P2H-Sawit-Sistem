@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SystemConfigController;
 use App\Http\Controllers\Admin\DataItemController;
 use App\Http\Controllers\Admin\DataAttributesController;
+use App\Http\Controllers\Admin\ItemAttributesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,19 +48,32 @@ Route::middleware(['check.maintenance'])->group(function () {
                 Route::GET('/edit/{id}', [DataItemController::class, 'edit'])->name('master.data.items.edit');
                 Route::GET('/delete/{id}', [DataItemController::class, 'delete'])->name('master.data.items.delete');
                 Route::POST('/store', [DataItemController::class, 'store'])->name('master.data.items.store');
-                Route::GET('/update/{id}', [DataItemController::class, 'update'])->name('master.data.items.update');
+                Route::POST('/update/{id}', [DataItemController::class, 'update'])->name('master.data.items.update');
                 Route::GET('/json', [DataItemController::class, 'json']);
                 Route::GET('/find/{id}', [DataItemController::class, 'find']);
             });
+
             Route::prefix('attributes')->group(function () {
                 Route::GET('/', [DataAttributesController::class, 'index'])->name('master.data.attributes');
                 Route::GET('/add', [DataAttributesController::class, 'add'])->name('master.data.attributes.add');
                 Route::GET('/edit/{id}', [DataAttributesController::class, 'edit'])->name('master.data.attributes.edit');
                 Route::GET('/delete/{id}', [DataAttributesController::class, 'delete'])->name('master.data.attributes.delete');
                 Route::POST('/store', [DataAttributesController::class, 'store'])->name('master.data.attributes.store');
-                Route::GET('/update/{id}', [DataAttributesController::class, 'update'])->name('master.data.attributes.update');
+                Route::POST('/update/{id}', [DataAttributesController::class, 'update'])->name('master.data.attributes.update');
                 Route::GET('/json', [DataAttributesController::class, 'json']);
                 Route::GET('/find/{id}', [DataAttributesController::class, 'find']);
+            });
+            
+            Route::prefix('item-attributes')->group(function () {
+                Route::GET('/', [ItemAttributesController::class, 'index'])->name('master.data.itemattributes');
+                Route::GET('/add', [ItemAttributesController::class, 'add'])->name('master.data.itemattributes.attach');
+                Route::GET('/show/{id}', [ItemAttributesController::class, 'detail'])->name('master.data.itemattributes.detail');
+                Route::GET('/show/{od}/delete/{id}', [ItemAttributesController::class, 'delete'])->name('master.data.itemattributes.delete');
+                Route::POST('/store', [ItemAttributesController::class, 'store'])->name('master.data.itemattributes.store');
+                Route::POST('/update/{id}', [ItemAttributesController::class, 'update'])->name('master.data.itemattributes.update');
+                Route::GET('/json', [ItemAttributesController::class, 'json']);
+                Route::GET('/show/{id}/json', [ItemAttributesController::class, 'getParamaters']);
+                Route::GET('/show/{od}/find/{id}', [ItemAttributesController::class, 'find']);
             });
         });
 

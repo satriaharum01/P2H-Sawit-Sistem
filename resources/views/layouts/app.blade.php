@@ -48,6 +48,19 @@
         <div class="layout-overlay layout-menu-toggle"></div>
         @stack('partials')
     </div>
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999">
+        <div id="liveToast" class="toast hide align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <div class="d-flex align-items-center">
+                        <i class="bx bx-bell me-2 fs-5" id="toastIcon"></i>
+                        <div id="toastMessage"></div>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
@@ -57,7 +70,7 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     @stack('scripts')
-    
+
     @include('layouts.js')
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>

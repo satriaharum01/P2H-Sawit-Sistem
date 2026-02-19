@@ -8,8 +8,7 @@
 <!-- Select 2 Plugin -->
 <script src="{{ asset('static/libs/select2/select2.min.js') }}"></script>
 <!-- SweetAlert 2 -->
-<script src="{{ asset( 'static/libs/sweetalert2/sweetalert2.all.min.js')}}">
-</script>
+<script src="{{ asset('static/libs/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
 <script>
     $("body").on("click", ".btn-hapus", function() {
@@ -64,7 +63,68 @@
                 jQuery("#compose").modal("toggle");
             }
         });
-        
+
         return bindingData;
     }
+
+    function showToast(message, type = 'success') {
+        const toastEl = document.getElementById('liveToast');
+        const toastBody = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+
+        // 1. Isi Pesan
+        toastBody.innerText = message;
+
+        // 2. Atur Warna Background & Icon berdasarkan Type
+        // Reset background classes
+        toastEl.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'bg-info');
+
+        if (type === 'success') {
+            toastEl.classList.add('bg-success');
+            toastIcon.className = 'bx bx-check-circle me-2 fs-5';
+        } else if (type === 'error' || type === 'danger') {
+            toastEl.classList.add('bg-danger');
+            toastIcon.className = 'bx bx-error-circle me-2 fs-5';
+        } else if (type === 'warning') {
+            toastEl.classList.add('bg-warning', 'text-dark'); // Warning biasanya teks hitam
+            toastIcon.className = 'bx bx-warning me-2 fs-5';
+        } else {
+            toastEl.classList.add('bg-info');
+            toastIcon.className = 'bx bx-info-circle me-2 fs-5';
+        }
+
+        // 3. Tampilkan Toast
+        const toast = new bootstrap.Toast(toastEl, {
+            delay: 4000
+        });
+        toast.show();
+    }
 </script>
+@if (session('message'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            let message = "{{ session('message') }}";
+            let type = "{{ session('info', 'success') }}";
+
+            let title = 'Info';
+            if (type === 'error') title = 'Error';
+            if (type === 'warning') title = 'Warning';
+
+            showToast(message, type, title);
+        });
+    </script>
+@endif
+@if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gabungkan semua pesan error menjadi satu string dengan baris baru
+            let errorMessages = "";
+            @foreach ($errors->all() as $error)
+                errorMessages += "• {{ $error }}\n";
+            @endforeach
+
+            showToast(errorMessages, 'error', 'Validasi Gagal');
+        });
+    </script>
+@endif

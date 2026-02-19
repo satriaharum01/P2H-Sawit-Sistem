@@ -120,13 +120,13 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="#" class="menu-link">
-                <div>Attribute Groups</div>
+            <a href="{{route('master.data.itemattributes')}}" class="menu-link">
+                <div>Item Attribute Details</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="#" class="menu-link">
-                <div>Categories</div>
+            <a href="{{route('master.data.itemattributes.attach')}}" class="menu-link">
+                <div>Attach Attribute</div>
             </a>
         </li>
     </ul>

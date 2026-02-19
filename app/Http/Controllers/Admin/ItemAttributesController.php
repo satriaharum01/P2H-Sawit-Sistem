@@ -20,98 +20,109 @@ class ItemAttributesController extends Controller
     public function index()
     {
         $this->dataLoad['sectionTitle'] = 'Master Data Management';
-        $this->dataLoad['tableTitle'] = 'Data Items ';
+        $this->dataLoad['tableTitle'] = 'Data Attribute Items  ';
         $this->dataLoad['showDatatablesSetting'] = true;
+        $this->dataLoad['addBtnConfig'] = 'hidden';
 
-        return view('contents.partials.masterDataItems', $this->dataLoad);
+        return view('contents.partials.masterDataItemAttributes', $this->dataLoad);
+    }
+
+    public function detail($id)
+    {
+        $data = Item::withCount('attributeValues')->find($id);
+
+        $this->dataLoad['sectionTitle'] = 'Master Data Management';
+        $this->dataLoad['tableTitle'] = 'Attribute Items ['. $data->name.']';
+        $this->dataLoad['showDatatablesSettingDetails'] = true;
+        $this->dataLoad['addBtnConfig'] = 'hidden';
+        $this->dataLoad['item'] = $data;
+
+        return view('contents.partials.masterDataItemAttributes', $this->dataLoad);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'estate_id' => 'required|exists:estates,id',
-            'code' => 'required|unique:items,code',
-            'name' => 'required',
-            'category' => 'required|in:unit,inventory,task'
+            'item_id' => 'required|exists:items,id',
+            'attribute_id' => 'required|exists:attributes,id'
         ]);
 
-        Item::create($request->all());
+        ItemAttributeValue::updateOrCreate(
+            [
+            'item_id'      => $request->item_id,
+            'attribute_id' => $request->attribute_id
+        ],
+            $request->except(['item_id', 'attribute_id'])
+        );
 
-        return redirect()->back()->with('success', 'Item berhasil ditambahkan');
+        return redirect()->back()
+        ->with('message', 'Value berhasil ditambahkan')
+        ->with('info', 'success');
     }
 
     public function add()
     {
-        $fields = Item::getFormSettings();
-        $fields['estate_id']['options'] = Estate::pluck('name', 'id')->toArray();
-        
-        $this->dataLoad['fields'] = $fields;
-        $this->dataLoad['sectionTitle'] = 'Tambah Data Items';
-        $this->dataLoad['formTitle'] = 'Tambah Data Items';
-        $this->dataLoad['formRoute'] = route('master.data.items.store');
-        
-        return view('contents.partials.masterDataItemsForm', $this->dataLoad);
-    }
+        $fields = ItemAttributeValue::getFormSettings();
+        $fields['item_id']['options'] = Item::pluck('name', 'id')->toArray();
+        $fields['attribute_id']['options'] = Attribute::pluck('name', 'id')->toArray();
 
-    public function edit($id)
-    {
-        $item = Item::findOrFail($id);
-        $fields = Item::getFormSettings();
-        $fields['estate_id']['options'] = Estate::pluck('name', 'id')->toArray();
-        
-        foreach ($fields as $key => $config) {
-            $fields[$key]['value'] = $item->$key;
-        }
-        
+        $this->dataLoad['showFormSettings'] = true;
         $this->dataLoad['fields'] = $fields;
-        $this->dataLoad['sectionTitle'] = 'Edit Data Items';
-        $this->dataLoad['formTitle'] = 'Edit Data Items';
-        $this->dataLoad['formRoute'] = route('master.data.items.update', ['id'=> $id]);
-        
-        return view('contents.partials.masterDataItemsForm', $this->dataLoad);
+        $this->dataLoad['sectionTitle'] = 'Tambah Attribute Items';
+        $this->dataLoad['formTitle'] = 'Tambah Attribute Items';
+        $this->dataLoad['formRoute'] = route('master.data.itemattributes.store');
+
+        return view('contents.partials.masterDataItemAttributes', $this->dataLoad);
     }
 
     public function update(Request $request, $id)
     {
-        $item = Item::findOrFail($id);
-
-        $request->validate([
-            'estate_id' => 'required|exists:estates,id',
-            'code' => 'required|unique:items,code,' . $item->id,
-            'name' => 'required',
-            'category' => 'required|in:unit,inventory,task'
-        ]);
+        $item = ItemAttributeValue::findOrFail($id);
 
         $item->update($request->all());
 
-        return redirect()->back()->with('info', 'Item berhasil diupdate');
+        return redirect()->back()
+        ->with('message', 'Value berhasil diupdate')
+        ->with('info', 'success');
     }
 
-    public function delete($id)
+    public function delete($od,$id)
     {
-        $rows = Item::findOrFail($id);
+        $rows = ItemAttributeValue::findOrFail($id);
         $rows->delete();
 
-        return redirect()->back()->with('danger', 'Item berhasil dihapus');
+        return redirect()->back()->with([
+            'message' => 'Value berhasil dihapus',
+            'info'    => 'error'
+        ]);
 
     }
 
     public function json()
     {
-        $data = Item::with('estate')->get();
+        $data = Item::withCount('attributeValues')->get();
 
         return Datatables::of($data)
             ->addIndexColumn()
             ->make(true);
     }
-    
-    public function find($id)
+
+    public function getParamaters()
     {
-        $data = Item::select('*')->where('id', $id)->first();
-        $data->dataTitle = 'Update Items'; 
+        $data = ItemAttributeValue::with('attribute')->get();
+
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+    public function find($od, $id)
+    {
+        $data = ItemAttributeValue::with('attribute')->where('id', $id)->first();
+        $data->dataTitle = 'Update Attribute Values';
         return json_encode($data);
     }
-    
+
     public function attachAttribute(Request $request, $itemId)
     {
         $request->validate([
@@ -123,6 +134,9 @@ class ItemAttributesController extends Controller
             'attribute_id' => $request->attribute_id
         ]);
 
-        return back()->with('success', 'Attribute berhasil ditambahkan ke item');
+        return redirect()->back()->with([
+            'message' => 'Attribute berhasil ditambahkan ke item',
+            'info'    => 'success'
+        ]);
     }
 }
