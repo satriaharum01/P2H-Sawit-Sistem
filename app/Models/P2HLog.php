@@ -12,21 +12,17 @@ class P2HLog extends Model
     protected $table = 'p2h_logs';
 
     protected $fillable = [
-        'estate_id',
-        'unit_id',
+        'task_uuid',
         'user_id',
+        'operator_name',
         'signature_path',
         'status',
+        'log_date',
     ];
 
-    public function estate()
+    public function assignment()
     {
-        return $this->belongsTo(Estate::class);
-    }
-
-    public function unit()
-    {
-        return $this->belongsTo(Item::class, 'unit_id');
+        return $this->belongsTo(Item::class,'task_uuid');
     }
 
     public function user()
@@ -36,6 +32,6 @@ class P2HLog extends Model
 
     public function values()
     {
-        return $this->hasMany(P2HLogValue::class);
+        return $this->hasMany(P2HLogValue::class, 'p2h_log_id');
     }
 }

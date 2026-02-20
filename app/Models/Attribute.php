@@ -57,6 +57,11 @@ class Attribute extends Model
         return $this->hasMany(ItemAttributeValue::class);
     }
 
+    public function logValues()
+    {
+        return $this->hasMany(P2HLogValue::class);
+    }
+
     public static function getFormSettings()
     {
         $fields = [];

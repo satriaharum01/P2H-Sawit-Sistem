@@ -9,6 +9,8 @@
 <script src="{{ asset('static/libs/select2/select2.min.js') }}"></script>
 <!-- SweetAlert 2 -->
 <script src="{{ asset('static/libs/sweetalert2/sweetalert2.all.min.js') }}"></script>
+<!-- GLight Box -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/js/glightbox.min.js"></script>
 
 <script>
     $("body").on("click", ".btn-hapus", function() {
@@ -99,6 +101,14 @@
         });
         toast.show();
     }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const lightbox = GLightbox({
+            selector: '.glightbox'
+        });
+    });
 </script>
 @if (session('message'))
     <script>

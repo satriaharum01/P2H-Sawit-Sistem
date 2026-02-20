@@ -38,12 +38,12 @@ class ItemAttributeValue extends Model
 
     public function item()
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(Item::class,'item_uuid');
     }
 
     public function attribute()
     {
-        return $this->belongsTo(Attribute::class);
+        return $this->belongsTo(Attribute::class,'attribute_uuid');
     }
 
     public static function getFormSettings()

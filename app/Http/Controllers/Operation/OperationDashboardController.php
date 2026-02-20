@@ -16,6 +16,6 @@ class OperationDashboardController extends Controller
         $this->dataLoad['totalUsers'] = User::count();
         $this->dataLoad['sectionTitle'] = 'Operation Dashboard';
 
-        return view('contents.dashboard', $this->dataLoad);
+        return view('contents.partials.operatorDashboard', $this->dataLoad);
     }
 }

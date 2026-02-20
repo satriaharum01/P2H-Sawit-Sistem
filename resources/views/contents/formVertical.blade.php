@@ -12,7 +12,7 @@
                 <h5 class="card-title mt-2">{{ $formTitle }}</h5>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ $formRoute }}">
+                <form method="POST" action="{{ $formRoute }}" enctype="multipart/form-data">
                     @csrf
 
                     @foreach ($fields as $field => $key)
@@ -20,7 +20,10 @@
                             @error($field)
                                 <div class="invalid-feedback float-end w-auto d-block">{{ $message }}</div>
                             @enderror
-                            <label class="form-label">{{ $key['label'] }}</label>
+                            @if ($key['type'] !== 'id')
+                                <label class="form-label">{{ $key['label'] }}</label>
+                            @else
+                            @endif
                             {{-- TEXTAREA --}}
                             @if ($key['type'] === 'boolean')
                                 <div class="form-check form-switch mt-2">
@@ -37,7 +40,7 @@
                                 </div>
                             @elseif ($key['type'] === 'textarea')
                                 <textarea name="{{ $field }}" class="form-control" placeholder="{{ $key['placeholder'] ?? '' }}"
-                                    {{ !empty($key['required']) ? 'required' : '' }}>{{ old($field) }}</textarea>
+                                    {{ !empty($key['required']) ? 'required' : '' }}>{{ old($field, $key['value'] ?? '') }}</textarea>
 
                                 {{-- SELECT --}}
                             @elseif($key['type'] === 'select')
@@ -52,7 +55,16 @@
                                         </option>
                                     @endforeach
                                 </select>
-
+                            @elseif($key['type'] === 'image')
+                                <input type="file" accept="image/jpeg, image/png"name="{{ $field }}"
+                                    class="form-control" value="{{ !empty($key['value']) ? $key['value'] : old($field) }}"
+                                    placeholder="{{ $key['placeholder'] ?? '' }}"
+                                    {{ !empty($key['required']) ? 'required' : '' }} />
+                            @elseif($key['type'] === 'id')
+                                <input type="{{ $key['type'] }}" name="{{ $field }}" class="form-control d-none"
+                                    value="{{ !empty($key['value']) ? $key['value'] : old($field) }}"
+                                    placeholder="{{ $key['placeholder'] ?? '' }}"
+                                    {{ !empty($key['required']) ? 'required' : '' }} />
                                 {{-- DEFAULT INPUT --}}
                             @else
                                 <input type="{{ $key['type'] }}" name="{{ $field }}" class="form-control"

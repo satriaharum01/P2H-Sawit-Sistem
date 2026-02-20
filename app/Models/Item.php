@@ -39,6 +39,19 @@ class Item extends Model
     {
         return $this->belongsTo(Estate::class);
     }
+    
+    public function attributes()
+    {
+        // Mengambil Attribute melalui ItemAttributeValue
+        return $this->hasManyThrough(
+            Attribute::class,           // Model Tujuan
+            ItemAttributeValue::class,  // Model Perantara
+            'item_uuid',                  // Foreign key di tabel perantara
+            'uuid',                       // Foreign key di tabel tujuan (Attribute)
+            'uuid',                       // Local key di tabel Item
+            'attribute_uuid'              // Local key di tabel perantara
+        );
+    }
 
     public function attributeValues()
     {
@@ -48,11 +61,6 @@ class Item extends Model
     public function assignments()
     {
         return $this->hasMany(ItemUserAssignment::class, 'item_uuid', 'uuid');
-    }
-
-    public function p2hLogs()
-    {
-        return $this->hasMany(P2HLog::class, 'unit_id');
     }
 
     public function scopeVisibleTo($query, $user)

@@ -14,8 +14,8 @@
 </li>
 
 <!-- Quick Status -->
-<li class="menu-item">
-    <a href="#" class="menu-link">
+<li class="menu-item {{ request()->is('operation/task*') ? 'active' : '' }}">
+    <a href="{{route('operation.task.index')}}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-task"></i>
         <div>P2H Task</div>
     </a>

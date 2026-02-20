@@ -79,6 +79,11 @@ class ItemUserAssignment extends Model
         return $this->belongsTo(Estate::class, 'estate_uuid', 'uuid');
     }
 
+    public function p2hLogs()
+    {
+        return $this->hasMany(P2HLog::class, 'task_uuid');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

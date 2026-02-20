@@ -10,8 +10,9 @@ use App\Http\Controllers\Admin\DataItemController;
 use App\Http\Controllers\Admin\DataAttributesController;
 use App\Http\Controllers\Admin\ItemAttributesController;
 //Operations
-use App\Http\Controllers\Operation\OperationDashboardController;
 use App\Http\Controllers\Operation\TaskMonitorController;
+use App\Http\Controllers\Operation\OperatorTaskController;
+use App\Http\Controllers\Operation\OperationDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,7 +86,20 @@ Route::middleware(['check.maintenance'])->group(function () {
 
         Route::prefix('operation')->name('operation.')->group(function () {
             Route::GET('/dashboard', [OperationDashboardController::class, 'index'])->name('dashboard');
-           
+
+            Route::prefix('task')->name('task.')->group(function () {
+                Route::GET('/', [OperatorTaskController::class, 'index'])->name('index');
+                Route::GET('/add', [OperatorTaskController::class, 'add'])->name('add');
+                Route::GET('/show/{id}', [OperatorTaskController::class, 'detail'])->name('detail');
+                Route::GET('/show/{id}', [OperatorTaskController::class, 'detail'])->name('detail');
+                Route::POST('/submit', [OperatorTaskController::class, 'submit'])->name('submit');
+                Route::GET('/json', [OperatorTaskController::class, 'json']);
+
+                Route::GET('/history', [OperatorTaskController::class, 'history'])->name('history');
+                Route::GET('/history/json', [TaskMonitorController::class, 'historyJson']);
+
+            });
+
             Route::prefix('p2h')->name('p2h.')->group(function () {
                 Route::prefix('task')->name('task.')->group(function () {
                     Route::GET('/', [TaskMonitorController::class, 'index'])->name('index');

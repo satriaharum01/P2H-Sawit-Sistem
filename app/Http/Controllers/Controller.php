@@ -14,7 +14,7 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     public $dataLoad;
-
+    public $allValueColumns = ['value_string', 'value_number', 'value_boolean', 'value_date'];
     
     public function __construct()
     {
