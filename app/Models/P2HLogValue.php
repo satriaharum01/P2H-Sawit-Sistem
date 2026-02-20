@@ -12,6 +12,7 @@ class P2HLogValue extends Model
         'p2h_log_id',
         'attribute_id',
         'value_boolean',
+        'description',
         'photo_path',
     ];
 

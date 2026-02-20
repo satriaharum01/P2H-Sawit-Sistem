@@ -42,7 +42,12 @@ class Item extends Model
 
     public function attributeValues()
     {
-        return $this->hasMany(ItemAttributeValue::class);
+        return $this->hasMany(ItemAttributeValue::class, 'item_uuid', 'uuid');
+    }
+    
+    public function assignments()
+    {
+        return $this->hasMany(ItemUserAssignment::class, 'item_uuid', 'uuid');
     }
 
     public function p2hLogs()

@@ -9,6 +9,9 @@ use App\Http\Controllers\Admin\SystemConfigController;
 use App\Http\Controllers\Admin\DataItemController;
 use App\Http\Controllers\Admin\DataAttributesController;
 use App\Http\Controllers\Admin\ItemAttributesController;
+//Operations
+use App\Http\Controllers\Operation\OperationDashboardController;
+use App\Http\Controllers\Operation\TaskMonitorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,16 +27,19 @@ Route::middleware('guest')->group(function () {
     Route::GET('/auth', [CustomAuthController::class, 'showLogin'])->name('auth.login');
     Route::POST('/auth', [CustomAuthController::class, 'login'])->name('auth.process');
 });
-
-Route::POST('/logout', [CustomAuthController::class, 'logout'])->name('logout');
+Route::prefix('auth')->name('auth.')->group(function () {
+    Route::POST('/logout', [CustomAuthController::class, 'logout'])->name('logout');
+    Route::GET('/logout', [CustomAuthController::class, 'logout'])->name('logout');
+});
 
 Route::middleware(['check.maintenance'])->group(function () {
     Route::middleware(['auth', 'check.route'])->group(function () {
 
-        Route::GET('/user/redirect', [UserRedirectController::class, 'redirect']);
+        Route::GET('/user/redirect', [UserRedirectController::class, 'redirect'])->name('users.redirect');
 
         Route::prefix('account')->group(function () {
             Route::GET('/dashboard', [DashboardController::class, 'index'])->name('account.dashboard');
+            Route::GET('/operation/dashboard', [OperationDashboardController::class, 'index'])->name('account.operation.dashboard');
         });
         Route::prefix('setting')->group(function () {
             Route::GET('/website', [SystemConfigController::class, 'index'])->name('setting.website');
@@ -63,7 +69,7 @@ Route::middleware(['check.maintenance'])->group(function () {
                 Route::GET('/json', [DataAttributesController::class, 'json']);
                 Route::GET('/find/{id}', [DataAttributesController::class, 'find']);
             });
-            
+
             Route::prefix('item-attributes')->group(function () {
                 Route::GET('/', [ItemAttributesController::class, 'index'])->name('master.data.itemattributes');
                 Route::GET('/add', [ItemAttributesController::class, 'add'])->name('master.data.itemattributes.attach');
@@ -77,6 +83,24 @@ Route::middleware(['check.maintenance'])->group(function () {
             });
         });
 
+        Route::prefix('operation')->name('operation.')->group(function () {
+            Route::GET('/dashboard', [OperationDashboardController::class, 'index'])->name('dashboard');
+           
+            Route::prefix('p2h')->name('p2h.')->group(function () {
+                Route::prefix('task')->name('task.')->group(function () {
+                    Route::GET('/', [TaskMonitorController::class, 'index'])->name('index');
+                    Route::GET('/add', [TaskMonitorController::class, 'add'])->name('add');
+                    Route::GET('/edit/{id}', [TaskMonitorController::class, 'edit'])->name('edit');
+                    Route::GET('/show/{id}', [TaskMonitorController::class, 'detail'])->name('detail');
+                    Route::GET('/show/{od}/delete/{id}', [TaskMonitorController::class, 'delete'])->name('delete');
+                    Route::POST('/store', [TaskMonitorController::class, 'store'])->name('store');
+                    Route::POST('/update/{id}', [TaskMonitorController::class, 'update'])->name('update');
+                    Route::GET('/json', [TaskMonitorController::class, 'json']);
+                    Route::GET('/show/{id}/json', [TaskMonitorController::class, 'getParamaters']);
+                    Route::GET('/show/{od}/find/{id}', [TaskMonitorController::class, 'find']);
+                });
+            });
+        });
         Route::GET('/p2h/form', function () {
             return view('p2h.form');
         })->name('p2h.form');

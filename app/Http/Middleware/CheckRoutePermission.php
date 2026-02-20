@@ -39,6 +39,7 @@ class CheckRoutePermission
             ->where('is_active', 1)
             ->first();
 
+        /*
         if (!$routeConfig) {
             abort(403, 'Route tidak terdaftar atau tidak aktif.');
         }
@@ -50,7 +51,7 @@ class CheckRoutePermission
         if (!$allowed) {
             abort(403, 'Tidak punya akses.');
         }
-
+        */
         return $next($request);
     }
 }

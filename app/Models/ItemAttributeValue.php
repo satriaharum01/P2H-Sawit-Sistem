@@ -46,7 +46,6 @@ class ItemAttributeValue extends Model
         return $this->belongsTo(Attribute::class);
     }
 
-    
     public static function getFormSettings()
     {
         return [

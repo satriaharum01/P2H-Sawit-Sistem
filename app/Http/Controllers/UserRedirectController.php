@@ -15,7 +15,7 @@ class UserRedirectController extends Controller
         }
 
         if ($user->role->name === 'Manager') {
-            return redirect()->route('account.dashboard');
+            return redirect()->route('account.operation.dashboard');
         }
 
         if ($user->role->name === 'Operator') {

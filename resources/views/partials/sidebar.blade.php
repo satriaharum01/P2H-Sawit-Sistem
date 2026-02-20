@@ -18,6 +18,14 @@
         @if (auth()->user()->role?->name === 'Admin')
             @include('partials.role.adminSidebar')
         @endif
+        
+        @if (auth()->user()->role?->name === 'Manager')
+            @include('partials.role.managerSidebar')
+        @endif
+        
+        @if (auth()->user()->role?->name === 'Operator')
+            @include('partials.role.operatorSidebar')
+        @endif
     </ul>
 </aside>
 
